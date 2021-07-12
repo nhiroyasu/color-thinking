@@ -1,0 +1,23 @@
+.clickable {
+  cursor: pointer;
+}
+
+img.img-block {
+  display: block;
+}
+
+.move-to-top {
+  z-index: 100;
+}
+
+.non-selectable {
+  user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+}
+
+.btn-frame {
+  border-radius: 6px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}

@@ -1,0 +1,78 @@
+// from Bootstrap
+$xxl: 1400px;
+$xl: 1200px;
+$lg: 992px;
+$md: 768px;
+$sm: 576px;
+$xs: 575px;
+
+@mixin xxl {
+  @media (min-width: ($xxl)) {
+    @content;
+  }
+}
+@mixin big_desktop_above {
+  @media (min-width: ($xxl)) {
+    @content;
+  }
+}
+
+@mixin xl {
+  @media (min-width: ($xl)) {
+    @content;
+  }
+}
+@mixin desktop_above {
+  @media (min-width: ($xl)) {
+    @content;
+  }
+}
+
+@mixin lg {
+  @media (min-width: ($lg)) {
+    @content;
+  }
+}
+@mixin laptop_above {
+  @media (min-width: ($lg)) {
+    @content;
+  }
+}
+
+@mixin md {
+  @media (min-width: ($md)) {
+    @content;
+  }
+}
+@mixin tablet_above {
+  @media (min-width: ($md)) {
+    @content;
+  }
+}
+
+@mixin sm {
+  @media (min-width: ($sm)) {
+    @content;
+  }
+}
+@mixin phablet_above {
+  @media (min-width: ($sm)) {
+    @content;
+  }
+}
+
+@mixin phone_only {
+  @media (max-width: ($xs)) {
+    @content;
+  }
+}
+
+/* sample
+.box {
+  @include md {
+    background-color: blue;
+  };
+  @include sm {
+    background-color: yellow;
+  };
+} */

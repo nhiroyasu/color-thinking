@@ -85,12 +85,32 @@ function ratioLuminance(c1: Color, c2: Color): number {
 
 /**
  * 輝度比が基準を準拠しているか
+ * largeScale: 3以上
+ * default: 4.5以上
+ * strict: 7以上
  * @param {Color} c1 L1, L2を考慮しなくて良い
  * @param {Color} c2 L1, L2を考慮しなくて良い
- * @return {Boolean} 輝度比が4.5以上ならtrue
+ * @param 輝度比チェックにおける基準値の指定
+ * @return {Boolean} 輝度比が基準以上ならtrue
  */
-function isRatioLuminanceFollowing(c1: Color, c2: Color): boolean {
-  return ratioLuminance(c1, c2) >= 4.5;
+function isRatioLuminanceFollowing(
+  c1: Color,
+  c2: Color,
+  type: 'largeScale' | 'default' | 'strict' = 'default'
+): boolean {
+  let threshold = 4.5;
+  switch (type) {
+    case 'largeScale':
+      threshold = 3;
+      break;
+    case 'default':
+      threshold = 4.5;
+      break;
+    case 'strict':
+      threshold = 7;
+      break;
+  }
+  return ratioLuminance(c1, c2) >= threshold;
 }
 
 /**

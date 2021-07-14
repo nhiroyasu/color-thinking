@@ -14,18 +14,11 @@
         </div>
         <check-item :flag="checkRatioLuminance" label="コントラスト比" />
         <div class="old-contents-wrapper">
-          <div class="form-check form-switch">
-            <input
-              type="checkbox"
-              id="old-check-contents-switch"
-              class="form-check-input"
-              name="old-check-contents-switch"
-              v-model="showOldCheckingContents"
-            />
-            <label for="old-check-contents-switch" class="form-check-label"
-              >過去のチェック項目</label
-            >
-          </div>
+          <app-switch
+            v-model:switchValue="showOldCheckingContents"
+            name="old-check-contents-switch"
+            label="過去のチェック項目"
+          />
           <div v-show="showOldCheckingContents" class="old-check-contents">
             <check-item :flag="checkDiffBrightness" label="明度差" />
             <check-item :flag="checkDiffColorValue" label="色差" />
@@ -45,6 +38,7 @@
 import { defineComponent } from 'vue';
 import ColorInput from '@/components/commons/ColorInput.vue';
 import CheckItem from '@/components/commons/CheckItem.vue';
+import AppSwitch from '@/components/commons/AppSwitch.vue';
 import {
   isDiffBrightnessFollowing,
   isDiffColorFollowing,
@@ -60,6 +54,7 @@ export default defineComponent({
   components: {
     ColorInput,
     CheckItem,
+    AppSwitch,
   },
   data() {
     return {

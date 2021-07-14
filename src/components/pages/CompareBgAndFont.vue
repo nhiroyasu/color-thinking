@@ -5,23 +5,32 @@
         <div class="content-title">
           Options
         </div>
-        <color-input
-          label="Font Color"
-          :color-str="fontColorStr"
-          @change="fontColorStr = $event"
-        />
-        <color-input
-          label="Background Color"
-          :color-str="backgroundColorStr"
-          @change="backgroundColorStr = $event"
-        />
+        <color-input label="フォント色" v-model:color-str="fontColorStr" />
+        <color-input label="背景色" v-model:color-str="backgroundColorStr" />
       </div>
-      <div class="check-content-wrapper">
+      <div class="check-contents-wrapper">
         <div class="content-title">
           Check List
         </div>
-        <check-item :flag="checkRatioLuminance" label="輝度比" />
-        <check-item :flag="checkDiffBrightness" label="明るさの差" />
+        <check-item :flag="checkRatioLuminance" label="コントラスト比" />
+        <div class="old-contents-wrapper">
+          <div class="form-check form-switch">
+            <input
+              type="checkbox"
+              id="old-check-contents-switch"
+              class="form-check-input"
+              name="old-check-contents-switch"
+              v-model="showOldCheckingContents"
+            />
+            <label for="old-check-contents-switch" class="form-check-label"
+              >過去のチェック項目</label
+            >
+          </div>
+          <div v-show="showOldCheckingContents" class="old-check-contents">
+            <check-item :flag="checkDiffBrightness" label="明度差" />
+            <check-item :flag="checkDiffColorValue" label="色差" />
+          </div>
+        </div>
       </div>
     </div>
     <div class="checking-preview">
@@ -38,6 +47,7 @@ import ColorInput from '@/components/commons/ColorInput.vue';
 import CheckItem from '@/components/commons/CheckItem.vue';
 import {
   isDiffBrightnessFollowing,
+  isDiffColorFollowing,
   isRatioLuminanceFollowing,
 } from '@/services/ColorSense';
 import Color from '@/domains/Color';
@@ -55,6 +65,7 @@ export default defineComponent({
     return {
       fontColorStr: '#FFFFFF',
       backgroundColorStr: '#000000',
+      showOldCheckingContents: false,
     };
   },
   computed: {
@@ -62,6 +73,7 @@ export default defineComponent({
       return ColorBuilder.build(this.fontColorStr);
     },
     backgroundColor(): Color {
+      console.log(this.backgroundColorStr);
       return ColorBuilder.build(this.backgroundColorStr);
     },
     checkRatioLuminance(): boolean {
@@ -73,6 +85,13 @@ export default defineComponent({
     },
     checkDiffBrightness(): boolean {
       const result: boolean = isDiffBrightnessFollowing(
+        this.fontColor,
+        this.backgroundColor
+      );
+      return result;
+    },
+    checkDiffColorValue(): boolean {
+      const result: boolean = isDiffColorFollowing(
         this.fontColor,
         this.backgroundColor
       );
@@ -91,7 +110,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .compare-bg-and-font {
-  align-items: center;
+  align-items: flex-start;
   display: grid;
   grid-template-columns: 360px minmax(360px, auto);
   justify-items: start;
@@ -115,8 +134,12 @@ export default defineComponent({
   }
 }
 
-.check-content-wrapper {
+.check-contents-wrapper {
   display: grid;
+
+  .old-contents-wrapper {
+    margin: 8px 0;
+  }
 }
 .checking-preview {
   display: flex;
@@ -130,8 +153,7 @@ export default defineComponent({
     display: grid;
     font-size: 1.5rem;
     place-items: center center;
-    height: 100%;
-    max-height: 520px;
+    height: 380px;
     width: 100%;
   }
 }

@@ -7,7 +7,7 @@
       class="form-control form-control-color"
       type="color"
       name="color"
-      v-model="colorStr"
+      :value="colorStr"
       @input="onChanged"
     />
   </div>
@@ -29,18 +29,12 @@ export default defineComponent({
     colorStr: {
       type: String,
       require: true,
-      default: '#ffffff',
-    },
-  },
-  emits: {
-    change(value: string) {
-      return value;
     },
   },
   methods: {
     onChanged({ target }: Event) {
       if (target instanceof HTMLInputElement) {
-        this.$emit('change', target.value);
+        this.$emit('update:colorStr', target.value);
       }
     },
   },

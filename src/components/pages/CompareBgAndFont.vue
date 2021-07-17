@@ -12,7 +12,7 @@
         <div class="content-title">
           Check List
         </div>
-        <check-item :flag="checkRatioLuminance" label="コントラスト比" />
+        <check-item :data="luminanceRatioProp" />
         <div class="old-contents-wrapper">
           <app-switch
             v-model:switchValue="showOldCheckingContents"
@@ -20,8 +20,8 @@
             label="過去のチェック項目"
           />
           <div v-show="showOldCheckingContents" class="old-check-contents">
-            <check-item :flag="checkDiffBrightness" label="明度差" />
-            <check-item :flag="checkDiffColorValue" label="色差" />
+            <check-item :data="diffBrightnessProp" />
+            <check-item :data="diffColorValueProp" />
           </div>
         </div>
       </div>
@@ -46,10 +46,20 @@ import {
 } from '@/services/ColorSense';
 import Color from '@/domains/Color';
 import ColorBuilder from '@/services/ColorBuilder';
+import { fetchCheckItemData } from '@/repositories/CheckItemRepository';
+import { CheckItemsManager } from '@/services/CheckItemsManager';
+import { CheckItemProp } from '@/domains/CheckItemProp';
 
 export default defineComponent({
   setup() {
-    return {};
+    const checkItemData = fetchCheckItemData();
+    console.log(checkItemData);
+    const checkItemsManager = new CheckItemsManager(checkItemData);
+    return {
+      luminanceRatioData: checkItemsManager.fetchLuminanceRatioItem(),
+      diffBrightnessData: checkItemsManager.fetchDiffBrightnessItem(),
+      diffColorValueData: checkItemsManager.fetchDiffColorValueItem(),
+    };
   },
   components: {
     ColorInput,
@@ -71,6 +81,38 @@ export default defineComponent({
       console.log(this.backgroundColorStr);
       return ColorBuilder.build(this.backgroundColorStr);
     },
+    luminanceRatioProp(): CheckItemProp {
+      return new CheckItemProp(
+        this.checkRatioLuminance(),
+        this.luminanceRatioData.label,
+        this.luminanceRatioData.description,
+        this.luminanceRatioData.reference
+      );
+    },
+    diffBrightnessProp(): CheckItemProp {
+      return new CheckItemProp(
+        this.checkDiffBrightness(),
+        this.diffBrightnessData.label,
+        this.diffBrightnessData.description,
+        this.diffBrightnessData.reference
+      );
+    },
+    diffColorValueProp(): CheckItemProp {
+      return new CheckItemProp(
+        this.checkDiffColorValue(),
+        this.diffColorValueData.label,
+        this.diffColorValueData.description,
+        this.diffColorValueData.reference
+      );
+    },
+    previewStyle(): object {
+      return {
+        color: this.fontColorStr,
+        'background-color': this.backgroundColorStr,
+      };
+    },
+  },
+  methods: {
     checkRatioLuminance(): boolean {
       const result: boolean = isRatioLuminanceFollowing(
         this.fontColor,
@@ -92,14 +134,7 @@ export default defineComponent({
       );
       return result;
     },
-    previewStyle(): object {
-      return {
-        color: this.fontColorStr,
-        'background-color': this.backgroundColorStr,
-      };
-    },
   },
-  methods: {},
 });
 </script>
 

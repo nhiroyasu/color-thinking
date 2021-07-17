@@ -1,0 +1,20 @@
+[
+  {
+    "name": "luminance-ratio",
+    "label": "コントラスト比",
+    "description": "コントラスト比とは、比較する色の輝度の比のことです。輝度の計算は参考サイトなどを参照してください。文字色と背景のコントラスト比は少なくとも4.5:1必要です",
+    "reference": "https://waic.jp/docs/WCAG21/#contrast-minimum"
+  },
+  {
+    "name": "diff-brightness",
+    "label": "明度差",
+    "description": "明度差とは、((R x 299) + (G x 587) + (B x 114)) / 1000 で算出される明るさ具合の差分です。文字色と背景色の明度差は125以上ある必要があります。",
+    "reference": "https://www.w3.org/TR/AERT/#color-contrast"
+  },
+  {
+    "name": "diff-color-value",
+    "label": "色差",
+    "description": "色差とは、色のRGB値の差分のことです。例えば、白（R:255,G:255,B:255）と黒（R:0,G:0,B:0）の色差は765となります。文字色と背景色の色差は500以上ある必要があります。",
+    "reference": "https://www.w3.org/TR/AERT/#color-contrast"
+  }
+]

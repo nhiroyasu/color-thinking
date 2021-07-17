@@ -22,7 +22,9 @@
   <div class="collapse" :id="componentId">
     <div class="card card-body">
       {{ data.description }}
-      {{ data.reference ? data.reference : '' }}
+      <a v-if="data.reference" :href="data.reference" target="_blank">
+        参考サイト
+      </a>
     </div>
   </div>
 </template>

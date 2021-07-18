@@ -26,7 +26,7 @@
           type="button"
           data-bs-toggle="tooltip"
           data-bs-placement="top"
-          title="Tooltip on top"
+          title="コピー"
           @click="copyToClipboard"
         >
           <i class="bi bi-clipboard"></i>

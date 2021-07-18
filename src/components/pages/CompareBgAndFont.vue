@@ -53,7 +53,6 @@ import { CheckItemProp } from '@/domains/CheckItemProp';
 export default defineComponent({
   setup() {
     const checkItemData = fetchCheckItemData();
-    console.log(checkItemData);
     const checkItemsManager = new CheckItemsManager(checkItemData);
     return {
       luminanceRatioData: checkItemsManager.fetchLuminanceRatioItem(),
@@ -78,7 +77,6 @@ export default defineComponent({
       return ColorBuilder.build(this.fontColorStr);
     },
     backgroundColor(): Color {
-      console.log(this.backgroundColorStr);
       return ColorBuilder.build(this.backgroundColorStr);
     },
     luminanceRatioProp(): CheckItemProp {

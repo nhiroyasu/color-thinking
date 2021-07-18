@@ -3,13 +3,36 @@
     <label for="color" class="lead">
       {{ label }}
     </label>
-    <input
-      class="form-control form-control-color"
-      type="color"
-      name="color"
-      :value="colorStr"
-      @input="onChanged"
-    />
+    <div class="color-inputs-wrapper">
+      <input
+        class="form-control form-control-color"
+        type="color"
+        name="color"
+        :value="colorStr"
+        @input="updateColor"
+      />
+      <div class="input-group">
+        <input
+          class="form-control"
+          type="text"
+          name="hex-color"
+          aria-describedby="clipboard-button"
+          :value="colorStr"
+          @input="updateColor"
+        />
+        <button
+          class="btn btn-outline-primary"
+          id="clipboard-button"
+          type="button"
+          data-bs-toggle="tooltip"
+          data-bs-placement="top"
+          title="コピー"
+          @click="copyToClipboard"
+        >
+          <i class="bi bi-clipboard"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,13 +52,18 @@ export default defineComponent({
     colorStr: {
       type: String,
       require: true,
+      default: '',
     },
   },
   methods: {
-    onChanged({ target }: Event) {
+    updateColor({ target }: Event) {
       if (target instanceof HTMLInputElement) {
-        this.$emit('update:colorStr', target.value);
+        const upperCaseValue = target.value.toUpperCase();
+        this.$emit('update:colorStr', upperCaseValue);
       }
+    },
+    copyToClipboard() {
+      navigator.clipboard.writeText(this.colorStr);
     },
   },
 });
@@ -44,5 +72,13 @@ export default defineComponent({
 <style lang="scss" scoped>
 .color-input {
   margin: 4px 0;
+}
+
+.color-inputs-wrapper {
+  display: flex;
+
+  & > *:first-child {
+    margin-right: 8px;
+  }
 }
 </style>

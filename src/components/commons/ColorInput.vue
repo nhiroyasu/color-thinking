@@ -27,21 +27,35 @@
           data-bs-toggle="tooltip"
           data-bs-placement="top"
           title="コピー"
-          @click="copyToClipboard"
+          @click="onClickCopyButton"
         >
           <i class="bi bi-clipboard"></i>
         </button>
       </div>
     </div>
+    <toast
+      :isShow="toastFlag"
+      title="コピー"
+      :msg="`${colorStr}をクリップボードにコピーしました`"
+    />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import Toast from '@/components/commons/Toast.vue';
 
 export default defineComponent({
   setup() {
     return {};
+  },
+  components: {
+    Toast,
+  },
+  data() {
+    return {
+      toastFlag: false,
+    };
   },
   props: {
     label: {
@@ -62,8 +76,15 @@ export default defineComponent({
         this.$emit('update:colorStr', upperCaseValue);
       }
     },
+    onClickCopyButton() {
+      this.showToast();
+      this.copyToClipboard();
+    },
     copyToClipboard() {
       navigator.clipboard.writeText(this.colorStr);
+    },
+    showToast() {
+      this.toastFlag = true;
     },
   },
 });

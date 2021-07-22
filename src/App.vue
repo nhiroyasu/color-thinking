@@ -3,13 +3,18 @@
     Color Thinking
   </div>
   <router-view />
+  <toast-wrapper />
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue';
+import ToastWrapper from '@/components/layouts/ToastWrapper.vue';
 
 export default defineComponent({
   name: 'App',
+  components: {
+    ToastWrapper,
+  },
 });
 </script>
 
